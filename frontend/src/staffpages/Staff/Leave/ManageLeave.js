@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import AdminLayout from '../../Layouts/AdminLayout'
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout'
 import { useState } from 'react';
 import { userRequest } from '../../../requestMethods'
-import CustomDataGrid from '../../../components/dataGrid/CustomDataGrid';
+import CustomDataGrid from '../../../staffcomponents/dataGrid/CustomDataGrid';
 import { Link } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 import { MdOutlineDelete } from 'react-icons/md';
@@ -10,19 +10,19 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import {ImSearch} from 'react-icons/im'
-import PayrollReport from './PayrollReport';
+import LeaveReport from './LeaveReport';
 
-import './ManagePayroll.scss'
+import './ManageLeave.scss'
 
-function ManagePayroll() {
+function ManageLeaves() {
 
-    const [payroll, setpayroll] = useState([])
+    const [leave, setleave] = useState([])
     const [isSubmitted, setIsSubmitted] = useState(false)
 
-    const getpayroll = () => {
-        userRequest.get("payroll")
+    const getLeave = () => {
+        userRequest.get("leave")
         .then(res => {
-            setpayroll(res.data)
+            setleave(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -30,7 +30,7 @@ function ManagePayroll() {
     }
 
     useEffect(() => {
-        getpayroll()
+        getLeave()
     }, [isSubmitted])
 
     
@@ -46,10 +46,10 @@ function ManagePayroll() {
         confirmButtonText: 'Delete'
       }).then((result) => {
         if (result.isConfirmed) {
-          userRequest.delete('/payroll/' + id)
+          userRequest.delete('/leave/' + id)
           .then(res => {
               setIsSubmitted(!isSubmitted)
-              toast.success('Payroll details deleted')
+              toast.success('Leave details deleted')
           })
           .catch(err => {
             alert(err)
@@ -68,14 +68,13 @@ function ManagePayroll() {
     
       const handleSearch = (e) => {
           e.preventDefault()
-          userRequest.get(`payroll?search=${search}`)
+          userRequest.get(`leave?search=${search}`)
           .then(res => {
-            setpayroll(res.data)
+            setleave(res.data)
           })
           .catch(err => {
             console.log(err)
           })
-          
       }
     
       return(
@@ -99,69 +98,42 @@ function ManagePayroll() {
           align: "center",
           flex: 2,
         },
+       
         {
-          field: "role",
-          headerName: "Job Role",
+          field: "leaveType",
+          headerName: "Leave Type",
           headerAlign: "center",
-          type: "number",
           align: "center",
           flex: 2,
         },
         {
-          field: "month",
-          headerName: "Month",
+          field: "reason",
+          headerName: "Reason",
           headerAlign: "center",
-          type: "number",
           align: "center",
           flex: 2,
         },
         {
-          field: "basic",
-          headerName: "Basic Salary",
+          field: "leaveFrom",
+          headerName: "Leave From",
           headerAlign: "center",
-          type: "number",
           align: "center",
+          type: 'date',
           flex: 2,
+          valueGetter: ({ value }) => value && new Date(value),
         },
-        
         {
-          field: "otHours",
-          headerName: "OT Hours",
+          field: "leaveTo",
+          headerName: "Leave To",
           headerAlign: "center",
-          type: "number",
           align: "center",
+          type: 'date',
           flex: 2,
-        },
+          valueGetter: ({ value }) => value && new Date(value),
+      },
+      
 
-        {
-          field: "otRate",
-          headerName: "OT Rate",
-          headerAlign: "center",
-          type: "number",
-          align: "center",
-          flex: 2,
-        },
 
-        {
-          field: "otTotal",
-          headerName: "OT Total",
-          headerAlign: "center",
-          type: "number",
-          align: "center",
-          flex: 2,
-        },
-
-        {
-          field: "salary",
-          headerName: "Salary",
-          headerAlign: "center",
-          align: "center",
-          type: "number",
-          flex: 2,
-          valueFormatter: ({ value }) => `Rs. ${value.toFixed(2)}`,
-        },
-        
-     
         {
           field: "action",
           headerName: "Action",
@@ -173,10 +145,10 @@ function ManagePayroll() {
           renderCell: (params) => {
             return (
               <div className='action'>
-                <Link to={"/admin/payroll/ViewPayroll/" + params.row._id}>
+                <Link to={"/admin/leave/ViewLeave/" + params.row._id}>
                   <AiOutlineEye className='view' />
                 </Link>
-                <Link to={"/admin/payroll/EditPayroll/" + params.row._id}>
+                <Link to={"/admin/leave/EditLeave/" + params.row._id}>
                   <FiEdit className='edit' />
                 </Link>
                 <MdOutlineDelete className='delete' onClick={() => {handleDelete(params.row._id)}} />
@@ -189,10 +161,10 @@ function ManagePayroll() {
     return (
         <AdminLayout>
             <div className='listContainer'>
-            <CustomDataGrid data={payroll} columns={columns} searchBar={<SearchBar />} report={<PayrollReport data={payroll}/> }/>
+            <CustomDataGrid data={leave} columns={columns} searchBar={<SearchBar />} report={<LeaveReport data={leave}/>} /> 
             </div>
         </AdminLayout>
     )
 }
 
-export default ManagePayroll
+export default ManageLeaves

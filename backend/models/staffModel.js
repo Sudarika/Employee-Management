@@ -72,6 +72,7 @@ staffSchema.pre('save', async function (next) {
     }
 });
 
+
 staffSchema.index({
     firstName: 'text',
     other: 'text',

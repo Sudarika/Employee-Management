@@ -3,20 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 
 //payroll management
-import AddPayroll from './pages/Staff/Payroll/AddPayroll';
-import ManagePayroll from './pages/Staff/Payroll/ManagePayroll';
-import EditPayroll from './pages/Staff/Payroll/EditPayroll';
-import ViewPayroll from './pages/Staff/Payroll/ViewPayroll';
+import AddPayroll from './staffpages/Staff/Payroll/AddPayroll';
+import ManagePayroll from './staffpages/Staff/Payroll/ManagePayroll';
+import EditPayroll from './staffpages/Staff/Payroll/EditPayroll';
+import ViewPayroll from './staffpages/Staff/Payroll/ViewPayroll';
 //staff management
-import AddStaff from './pages/Staff/Staff/AddStaff'
-import ManageStaff from './pages/Staff/Staff/ManageStaff';
-import EditStaff from './pages/Staff/Staff/EditStaff';
-import ViewStaff from './pages/Staff/Staff/ViewStaff';
+import AddStaff from './staffpages/Staff/Staff/AddStaff'
+import ManageStaff from './staffpages/Staff/Staff/ManageStaff';
+import EditStaff from './staffpages/Staff/Staff/EditStaff';
+import ViewStaff from './staffpages/Staff/Staff/ViewStaff';
 //leave management
-import AddLeave from './pages/Staff/Leave/AddLeave';
-import ManageLeave from './pages/Staff/Leave/ManageLeave'
-import EditLeave from './pages/Staff/Leave/EditLeave'
-import ViewLeave from './pages/Staff/Leave/ViewLeave';
+import AddLeave from './staffpages/Staff/Leave/AddLeave';
+import ManageLeave from './staffpages/Staff/Leave/ManageLeave'
+import EditLeave from './staffpages/Staff/Leave/EditLeave'
+import ViewLeave from './staffpages/Staff/Leave/ViewLeave';
 
 function App() {
   return (

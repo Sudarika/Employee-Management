@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import AdminLayout from '../../Layouts/AdminLayout'
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout'
 import { useState } from 'react';
 import { userRequest } from '../../../requestMethods'
-import CustomDataGrid from '../../../components/dataGrid/CustomDataGrid';
+import CustomDataGrid from '../../../staffcomponents/dataGrid/CustomDataGrid';
 import { Link } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 import { MdOutlineDelete } from 'react-icons/md';
@@ -10,19 +10,20 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import {ImSearch} from 'react-icons/im'
-import LeaveReport from './LeaveReport';
+import StaffReport from './StaffReport';
 
-import './ManageLeave.scss'
+import './ManageStaff.scss'
 
-function ManageLeaves() {
 
-    const [leave, setleave] = useState([])
+function ManageStaff() {
+
+    const [staff, setStaff] = useState([])
     const [isSubmitted, setIsSubmitted] = useState(false)
 
-    const getLeave = () => {
-        userRequest.get("leave")
+    const getSatff = () => {
+        userRequest.get("staff")
         .then(res => {
-            setleave(res.data)
+            setStaff(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -30,7 +31,7 @@ function ManageLeaves() {
     }
 
     useEffect(() => {
-        getLeave()
+        getSatff()
     }, [isSubmitted])
 
     
@@ -46,10 +47,10 @@ function ManageLeaves() {
         confirmButtonText: 'Delete'
       }).then((result) => {
         if (result.isConfirmed) {
-          userRequest.delete('/leave/' + id)
+          userRequest.delete('/staff/' + id)
           .then(res => {
               setIsSubmitted(!isSubmitted)
-              toast.success('Leave details deleted')
+              toast.success('Staff Member deleted')
           })
           .catch(err => {
             alert(err)
@@ -68,13 +69,14 @@ function ManageLeaves() {
     
       const handleSearch = (e) => {
           e.preventDefault()
-          userRequest.get(`leave?search=${search}`)
+          userRequest.get(`staff?search=${search}`)
           .then(res => {
-            setleave(res.data)
+            setStaff(res.data)
           })
           .catch(err => {
             console.log(err)
           })
+         
       }
     
       return(
@@ -98,41 +100,63 @@ function ManageLeaves() {
           align: "center",
           flex: 2,
         },
-       
         {
-          field: "leaveType",
-          headerName: "Leave Type",
+          field: "firstName",
+          headerName: "First Name",
+          headerAlign: "center",
+          flex: 2,
+          
+        },
+        {
+          field: "other",
+          headerName: "Physical Disabilty",
+          headerAlign: "center",
+          align: "center",
+          flex: 2,
+        },
+        // {
+        //   field: "address",
+        //   headerName: "Address",
+        //   headerAlign: "center",
+        //   align: "center",
+        //   flex: 2,
+        // },
+        // {
+        //     field: "nic",
+        //     headerName: "NIC",
+        //     headerAlign: "center",
+        //     align: "center",
+        //     flex: 2,
+        // },
+        {
+          field: "contactNo",
+          headerName: "Contact No",
+          headerAlign: "center",
+          align: "center",
+          flex: 2,
+        },
+        // {
+        //   field: "dob",
+        //   headerName: "DOB",
+        //   headerAlign: "center",
+        //   align: "center",
+        //   flex: 2,
+        // },
+        {
+          field: "email",
+          headerName: "Email",
           headerAlign: "center",
           align: "center",
           flex: 2,
         },
         {
-          field: "reason",
-          headerName: "Reason",
+          field: "role",
+          headerName: "Job Role",
           headerAlign: "center",
           align: "center",
           flex: 2,
         },
-        {
-          field: "leaveFrom",
-          headerName: "Leave From",
-          headerAlign: "center",
-          align: "center",
-          type: 'date',
-          flex: 2,
-          valueGetter: ({ value }) => value && new Date(value),
-        },
-        {
-          field: "leaveTo",
-          headerName: "Leave To",
-          headerAlign: "center",
-          align: "center",
-          type: 'date',
-          flex: 2,
-          valueGetter: ({ value }) => value && new Date(value),
-      },
-      
-
+             
 
         {
           field: "action",
@@ -145,10 +169,10 @@ function ManageLeaves() {
           renderCell: (params) => {
             return (
               <div className='action'>
-                <Link to={"/admin/leave/ViewLeave/" + params.row._id}>
+                <Link to={"/admin/staff/ViewStaff/" + params.row._id}>
                   <AiOutlineEye className='view' />
                 </Link>
-                <Link to={"/admin/leave/EditLeave/" + params.row._id}>
+                <Link to={"/admin/staff/EditSatff/" + params.row._id}>
                   <FiEdit className='edit' />
                 </Link>
                 <MdOutlineDelete className='delete' onClick={() => {handleDelete(params.row._id)}} />
@@ -161,10 +185,10 @@ function ManageLeaves() {
     return (
         <AdminLayout>
             <div className='listContainer'>
-            <CustomDataGrid data={leave} columns={columns} searchBar={<SearchBar />} report={<LeaveReport data={leave}/>} /> 
+                <CustomDataGrid data={staff} columns={columns} searchBar={<SearchBar />} report={<StaffReport data={staff}/>}/> 
             </div>
         </AdminLayout>
     )
 }
 
-export default ManageLeaves
+export default ManageStaff

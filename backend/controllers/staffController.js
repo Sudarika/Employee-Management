@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 
-const Staff = require('../models/staffModel')
+const Staff = require('../models/staffModel');
+const DeleteStaff = require("../models/deleteStaffModel")
 
 
 
@@ -95,6 +96,18 @@ const deleteStaff = asyncHandler(async (req, res) => {
      const staff = await Staff.findById(req.params.id)
 
      if (staff) {
+        const removStaff = new DeleteStaff({
+            firstName:staff.firstName,
+            other:staff.other,
+            address:staff.address,
+            nic:staff.nic,
+            contactNo:staff.contactNo,
+            dob:staff.dob,
+            email:staff.email,
+        })
+
+        await removStaff.save()
+
          await staff.deleteOne();
          res.status(200).json({message: 'Staff member removed'})
      } else {

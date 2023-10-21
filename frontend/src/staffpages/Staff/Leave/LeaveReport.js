@@ -1,7 +1,7 @@
 import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import reportHeader from '../../../assets/reportHeader.jpg';
+import reportHeader from '../../../staffassets/reportHeader.jpg';
 import styled from "@emotion/styled";
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 
@@ -28,7 +28,7 @@ const IconWrapper = styled.div`
   vertical-align: middle; /* adjust the vertical alignment of the icon */
 `;
 
-const StaffReport = ({data}) => {
+const LeaveReport = ({data}) => {
 
     const downloadPDF = () => {
         const doc = new jsPDF();
@@ -52,9 +52,9 @@ const StaffReport = ({data}) => {
         doc.setFontSize(28);
 
         //Change report name accordingly
-        doc.text("Staff Details Report", (pageWidth / 2), 60, { align: "center" });
+        doc.text("Leave Details Report", (pageWidth / 2), 60, { align: "center" });
         // Underline the text
-        const textWidth = doc.getStringUnitWidth("Staff Details Report") * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        const textWidth = doc.getStringUnitWidth("Products Report") * doc.internal.getFontSize() / doc.internal.scaleFactor;
         doc.setLineWidth(0.5);
         doc.line((pageWidth / 2) - (textWidth / 2), 63, (pageWidth / 2) + (textWidth / 2), 63);
 
@@ -64,9 +64,9 @@ const StaffReport = ({data}) => {
       
         // Add the table to the document
         doc.autoTable({
-          head: [[ "Full Name", "Address", "NIC","Job Role", "Physical Disabilty"]],
+          head: [[ "Staff ID", "Leave Type", "Reason", "Leave from","To"]],
           body: data.map((item) => {
-            return [item.firstName, item.address, item.nic, item.role,item.other];
+            return [item.staffId, item.leaveType, item.reason, item.leaveFrom,item.leaveTo];
           }),
           startY: 80, // start the table below the logo
           headStyles: {
@@ -81,10 +81,11 @@ const StaffReport = ({data}) => {
           },
           columnStyles: {
             // 0: { halign: 'center' }, //we have set center as default
+            1: { halign: 'left' }, // left align the content in second column
           },
         });
     
-        doc.save("staff.pdf"); //Change name accordingly
+        doc.save("leave.pdf"); //Change name accordingly
       };
 
   return (
@@ -97,4 +98,4 @@ const StaffReport = ({data}) => {
   );
 };
 
-export default StaffReport;
+export default LeaveReport;

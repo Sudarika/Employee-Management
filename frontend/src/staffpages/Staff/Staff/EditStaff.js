@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminLayout from '../../Layouts/AdminLayout'
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout'
 import './EditStaff.scss'
 import { userRequest } from '../../../requestMethods'
 import uploadImage from '../../../uploadImage';

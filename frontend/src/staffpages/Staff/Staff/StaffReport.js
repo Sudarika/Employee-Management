@@ -1,7 +1,7 @@
 import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import reportHeader from '../../../assets/reportHeader.jpg';
+import reportHeader from '../../../staffassets/reportHeader.jpg';
 import styled from "@emotion/styled";
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 
@@ -28,7 +28,7 @@ const IconWrapper = styled.div`
   vertical-align: middle; /* adjust the vertical alignment of the icon */
 `;
 
-const PayrollReport = ({data}) => {
+const StaffReport = ({data}) => {
 
     const downloadPDF = () => {
         const doc = new jsPDF();
@@ -52,9 +52,9 @@ const PayrollReport = ({data}) => {
         doc.setFontSize(28);
 
         //Change report name accordingly
-        doc.text("Payroll Details Report", (pageWidth / 2), 60, { align: "center" });
+        doc.text("Staff Details Report", (pageWidth / 2), 60, { align: "center" });
         // Underline the text
-        const textWidth = doc.getStringUnitWidth("Payroll Details Report") * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        const textWidth = doc.getStringUnitWidth("Staff Details Report") * doc.internal.getFontSize() / doc.internal.scaleFactor;
         doc.setLineWidth(0.5);
         doc.line((pageWidth / 2) - (textWidth / 2), 63, (pageWidth / 2) + (textWidth / 2), 63);
 
@@ -64,9 +64,9 @@ const PayrollReport = ({data}) => {
       
         // Add the table to the document
         doc.autoTable({
-          head: [[ "Staff ID", "Job Role", "Month", "Basic Salary", "OT Hours",  "OT Rate",  "OT Total","Salary"]],
+          head: [[ "Full Name", "Address", "NIC","Job Role", "Physical Disabilty"]],
           body: data.map((item) => {
-            return [item.staffId, item.role, item.month, item.basic, item.otHours, item.otRate, item.otTotal, 'Rs.' + item.salary.toFixed(2)];
+            return [item.firstName, item.address, item.nic, item.role,item.other];
           }),
           startY: 80, // start the table below the logo
           headStyles: {
@@ -84,7 +84,7 @@ const PayrollReport = ({data}) => {
           },
         });
     
-        doc.save("payroll.pdf"); //Change name accordingly
+        doc.save("staff.pdf"); //Change name accordingly
       };
 
   return (
@@ -97,4 +97,4 @@ const PayrollReport = ({data}) => {
   );
 };
 
-export default PayrollReport;
+export default StaffReport;

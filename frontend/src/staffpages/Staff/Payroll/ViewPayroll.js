@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import AdminLayout from '../../Layouts/AdminLayout';
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout';
 import { userRequest } from '../../../requestMethods'
 import { toast } from 'react-hot-toast';
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import AdminLayout from '../../Layouts/AdminLayout'
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout'
 import { useState } from 'react';
 import { userRequest } from '../../../requestMethods'
-import CustomDataGrid from '../../../components/dataGrid/CustomDataGrid';
+import CustomDataGrid from '../../../staffcomponents/dataGrid/CustomDataGrid';
 import { Link } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 import { MdOutlineDelete } from 'react-icons/md';
@@ -10,20 +10,19 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import {ImSearch} from 'react-icons/im'
-import StaffReport from './StaffReport';
+import PayrollReport from './PayrollReport';
 
-import './ManageStaff.scss'
+import './ManagePayroll.scss'
 
+function ManagePayroll() {
 
-function ManageStaff() {
-
-    const [staff, setStaff] = useState([])
+    const [payroll, setpayroll] = useState([])
     const [isSubmitted, setIsSubmitted] = useState(false)
 
-    const getSatff = () => {
-        userRequest.get("staff")
+    const getpayroll = () => {
+        userRequest.get("payroll")
         .then(res => {
-            setStaff(res.data)
+            setpayroll(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -31,7 +30,7 @@ function ManageStaff() {
     }
 
     useEffect(() => {
-        getSatff()
+        getpayroll()
     }, [isSubmitted])
 
     
@@ -47,10 +46,10 @@ function ManageStaff() {
         confirmButtonText: 'Delete'
       }).then((result) => {
         if (result.isConfirmed) {
-          userRequest.delete('/staff/' + id)
+          userRequest.delete('/payroll/' + id)
           .then(res => {
               setIsSubmitted(!isSubmitted)
-              toast.success('Staff Member deleted')
+              toast.success('Payroll details deleted')
           })
           .catch(err => {
             alert(err)
@@ -69,14 +68,14 @@ function ManageStaff() {
     
       const handleSearch = (e) => {
           e.preventDefault()
-          userRequest.get(`staff?search=${search}`)
+          userRequest.get(`payroll?search=${search}`)
           .then(res => {
-            setStaff(res.data)
+            setpayroll(res.data)
           })
           .catch(err => {
             console.log(err)
           })
-         
+          
       }
     
       return(
@@ -101,63 +100,69 @@ function ManageStaff() {
           flex: 2,
         },
         {
-          field: "firstName",
-          headerName: "First Name",
-          headerAlign: "center",
-          flex: 2,
-          
-        },
-        {
-          field: "other",
-          headerName: "Physical Disabilty",
-          headerAlign: "center",
-          align: "center",
-          flex: 2,
-        },
-        // {
-        //   field: "address",
-        //   headerName: "Address",
-        //   headerAlign: "center",
-        //   align: "center",
-        //   flex: 2,
-        // },
-        // {
-        //     field: "nic",
-        //     headerName: "NIC",
-        //     headerAlign: "center",
-        //     align: "center",
-        //     flex: 2,
-        // },
-        {
-          field: "contactNo",
-          headerName: "Contact No",
-          headerAlign: "center",
-          align: "center",
-          flex: 2,
-        },
-        // {
-        //   field: "dob",
-        //   headerName: "DOB",
-        //   headerAlign: "center",
-        //   align: "center",
-        //   flex: 2,
-        // },
-        {
-          field: "email",
-          headerName: "Email",
-          headerAlign: "center",
-          align: "center",
-          flex: 2,
-        },
-        {
           field: "role",
           headerName: "Job Role",
           headerAlign: "center",
+          type: "number",
           align: "center",
           flex: 2,
         },
-             
+        {
+          field: "month",
+          headerName: "Month",
+          headerAlign: "center",
+          type: "number",
+          align: "center",
+          flex: 2,
+        },
+        {
+          field: "basic",
+          headerName: "Basic Salary",
+          headerAlign: "center",
+          type: "number",
+          align: "center",
+          flex: 2,
+        },
+        
+        {
+          field: "otHours",
+          headerName: "OT Hours",
+          headerAlign: "center",
+          type: "number",
+          align: "center",
+          flex: 2,
+        },
 
+        {
+          field: "otRate",
+          headerName: "OT Rate",
+          headerAlign: "center",
+          type: "number",
+          align: "center",
+          flex: 2,
+          
+        },
+
+        {
+          field: "otTotal",
+          headerName: "OT Total",
+          headerAlign: "center",
+          type: "number",
+          align: "center",
+          flex: 2,
+        },
+
+        {
+          field: "salary",
+          headerName: "Salary",
+          headerAlign: "center",
+          align: "center",
+          type: "number",
+          flex: 2,
+          valueFormatter: ({ value }) => `Rs. ${value.toFixed(2)}`,
+        },
+        
+     
         {
           field: "action",
           headerName: "Action",
@@ -169,10 +174,10 @@ function ManageStaff() {
           renderCell: (params) => {
             return (
               <div className='action'>
-                <Link to={"/admin/staff/ViewStaff/" + params.row._id}>
+                <Link to={"/admin/payroll/ViewPayroll/" + params.row._id}>
                   <AiOutlineEye className='view' />
                 </Link>
-                <Link to={"/admin/staff/EditSatff/" + params.row._id}>
+                <Link to={"/admin/payroll/EditPayroll/" + params.row._id}>
                   <FiEdit className='edit' />
                 </Link>
                 <MdOutlineDelete className='delete' onClick={() => {handleDelete(params.row._id)}} />
@@ -185,10 +190,10 @@ function ManageStaff() {
     return (
         <AdminLayout>
             <div className='listContainer'>
-                <CustomDataGrid data={staff} columns={columns} searchBar={<SearchBar />} report={<StaffReport data={staff}/>}/> 
+            <CustomDataGrid data={payroll} columns={columns} searchBar={<SearchBar />} report={<PayrollReport data={payroll}/> }/>
             </div>
         </AdminLayout>
     )
 }
 
-export default ManageStaff
+export default ManagePayroll

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AdminLayout from '../../Layouts/AdminLayout'
+import AdminLayout from '../../../staffpages/Layouts/AdminLayout'
 import './AddLeave.scss'
 import { userRequest } from '../../../requestMethods'
 import { toast } from 'react-hot-toast';
@@ -36,7 +36,7 @@ const handleReset = () => {
   return (
     <AdminLayout>
       <br></br>
-    <div className="add-leave-container-main" style={{ height: '700px' ,marginBottom: '30px' }}>
+    <div className="add-leave-co3ntainer-main" style={{ height: '700px' ,marginBottom: '30px' }}>
         {/* this is the form container */}
         <form className="add-leave-form-container" onSubmit={handleSubmit}>
             <span className="tagline-add-leave">ADD LEAVE REQUEST<hr></hr></span>

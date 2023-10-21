@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { AppContext } from "../../contexts/AppContext";
-import SideBarItems from "./SidebarItems";
+import { AppContext } from "../../staffcontexts/AppContext";
+import SideBarItems from "../../staffcomponents/sidebar/SidebarItems";
 import { NavLink } from "react-router-dom";
 import "./sidebar.scss";
 import { GiTronArrow } from "react-icons/gi";
