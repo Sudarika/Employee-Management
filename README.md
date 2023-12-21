@@ -1,0 +1,1 @@
+Technology Warehouse Management System is the topic our web application .There are 8main funtions developed by 8 members using MERN stack.this is my function its Employee managment .basically i focus on Add Employee,employee salary managment and leave managment.
